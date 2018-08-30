@@ -1,0 +1,9 @@
+{{ define "sysbenchTableGraphButtons" }}
+<div id="graphs">
+    <button class="dropdown-item" id="sysbench-tablesize-btn" type="button" onclick='showGraphSysbench("sysbench-tablesize-chart", "sysbench-tablesize")'>Table Size</button>
+    <button class="dropdown-item" id="sysbench-numberofthreads-btn" type="button" onclick='showGraphSysbench("sysbench-numofthreads-chart", "sysbench-numofthreads")'>Number of Threads</button>
+    <button class="dropdown-item" id="sysbench-transactions-btn" type="button" onclick='showGraphSysbench("sysbench-transactionspersec-chart", "sysbench-transactionspersec")'>Transactions/Sec</button>
+    <button class="dropdown-item" id="sysbench-avg-btn" type="button" onclick='showGraphSysbench("sysbench-avg-chart", "sysbench-avg")'>Avg</button>
+    <button class="dropdown-item" id="sysbench-percentile-btn" type="button" onclick='showGraphSysbench("sysbench-percentile-chart", "sysbench-percentile")'>Percentile</button>
+</div>
+{{ end }}

@@ -1,0 +1,1045 @@
+{{ define "tableHandler"}}
+<script type="text/javascript">
+    document.getElementById("encryptedvolumeiops-btn").onclick = function () {
+        location.href = "encryptedvolumeiops";
+    };
+    document.getElementById("encryptedvolumethroughput-btn").onclick = function () {
+        location.href = "encryptedvolumethroughput";
+    };
+    document.getElementById("namespace-btn").onclick = function () {
+        location.href = "namespace";
+    };
+    document.getElementById("perf456-btn").onclick = function () {
+        location.href = "perf456";
+    };
+    document.getElementById("ioprofiledb-btn").onclick = function () {
+        location.href = "ioprofiledb";
+    };
+    document.getElementById("regvolume-iops-btn").onclick = function () {
+        location.href = "regvolumeiops";
+    };
+    document.getElementById("journal-px-volume-btn").onclick = function () {
+        location.href = "journalPXVolumeThroughput";
+    };
+    document.getElementById("regvolume-journal-btn").onclick = function () {
+        location.href = "journalThroughput";
+    };
+    document.getElementById("syncio-btn").onclick = function () {
+        location.href = "syncioThroughput";
+    };
+    document.getElementById("reg-volume-btn").onclick = function () {
+        location.href = "regvolumeThroughput";  
+    };
+    document.getElementById("resync-btn").onclick = function () {
+        location.href = "resync";
+    };
+    document.getElementById("whileio-btn").onclick = function () {
+        location.href = "resyncWhileIO";
+    };
+    document.getElementById("sysbench-btn").onclick = function () {
+        location.href = "sysbench";
+    };
+
+    function toggleActiveOn(buttonName) {
+        var buttons = ["encryptedvolumeiops-btn","encryptedvolumethroughput-btn","namespace-btn", "perf456-btn", "ioprofiledb-btn", "regvolume-iops-btn", "journal-px-volume-btn", "regvolume-journal-btn", "syncio-btn", "reg-volume-btn", "resync-btn", "whileio-btn", "sysbench-btn"]
+        var active = "dropdown-item active";
+        var element = document.getElementById(buttonName)
+        for (var i = 0; i < buttons.length; i++) {
+            document.getElementById(buttons[i]).className = "dropdown-item";
+        }
+        element.className = active
+        document.getElementById('version-dropdown-menu').disabled = false;
+    }
+
+    function setButtonActive() {
+        var buttonName = document.getElementById("table").getAttribute("name");
+
+        switch (buttonName) {
+            case "encryptedvolume_iops":
+                window.onload = toggleActiveOn("encryptedvolumeiops-btn");
+                getVersions("encryptedvolume_iops-version", "encryptedvolume_iops");
+                addFilter("encryptedvolume_iops-version", "encryptedvolume_iops");
+                break;
+            case "encryptedvolume_throughput":
+                window.onload = toggleActiveOn("encryptedvolumethroughput-btn");
+                getVersions("encryptedvolume_throughput-version", "encryptedvolume_throughput");
+                addFilter("encryptedvolume_throughput-version", "encryptedvolume_throughput");
+                break;
+            case "namespace_throughput":
+                window.onload = toggleActiveOn("namespace-btn");
+                getVersions("namespace_throughput-version", "namespace_throughput");
+                addFilter("namespace_throughput-version", "namespace_throughput");
+                break;
+            case "perf456_baremetal_avgthroughput":
+                window.onload = toggleActiveOn("perf456-btn");
+                getVersions("perf456_baremetal_avgthroughput-version", "perf456_baremetal_avgthroughput");
+                addFilter("perf456_baremetal_avgthroughput-version", "perf456_baremetal_avgthroughput");
+                break;
+            case "regvolume_ioprofiledb_throughput":
+                window.onload = toggleActiveOn("ioprofiledb-btn");
+                getVersions("regvolume_ioprofiledb_throughput-version","regvolume_ioprofiledb_throughput");
+                addFilter("regvolume_ioprofiledb_throughput-version","regvolume_ioprofiledb_throughput");
+                break;
+            case "regvolume_iops":
+                window.onload = toggleActiveOn("regvolume-iops-btn");
+                getVersions("regvolume_iops-version","regvolume_iops");
+                addFilter("regvolume_iops-version","regvolume_iops");
+                break;
+            case "regvolume_journalpxvolume_throughput":
+                window.onload = toggleActiveOn("journal-px-volume-btn");
+                getVersions("regvolume_journalpxvolume_throughput-version", "regvolume_journalpxvolume_throughput");
+                addFilter("regvolume_journalpxvolume_throughput-version", "regvolume_journalpxvolume_throughput");
+                break;
+            case "regvolume_journal_throughput":
+                window.onload = toggleActiveOn("regvolume-journal-btn");
+                getVersions("regvolume_journal_throughput-version", "regvolume_journal_throughput");
+                addFilter("regvolume_journal_throughput-version", "regvolume_journal_throughput");
+                break;
+            case "regvolume_syncio_throughput":
+                window.onload = toggleActiveOn("syncio-btn");
+                getVersions("regvolume_syncio_throughput-version", "regvolume_syncio_throughput");
+                addFilter("regvolume_syncio_throughput-version", "regvolume_syncio_throughput");
+                break;
+            case "regvolume_throughput":
+                window.onload = toggleActiveOn("reg-volume-btn");
+                getVersions("regvolume_throughput-version", "regvolume_throughput");
+                addFilter("regvolume_throughput-version", "regvolume_throughput");
+                break;
+            case "resync":
+                window.onload = toggleActiveOn("resync-btn");
+                getVersions("resync-version", "resync");
+                addFilter("resync-version", "resync");
+                break;
+            case "resync_whileio":
+                window.onload = toggleActiveOn("whileio-btn");
+                getVersions("resync_whileio-version", "resync_whileio");
+                addFilter("resync_whileio-version", "resync_whileio");
+                break;
+            case "sysbench":
+                window.onload = toggleActiveOn("sysbench-btn");
+                getVersions("sysbench-version", "sysbench");
+                addFilter("sysbench-version", "sysbench");
+                break;
+        }
+    }
+    setButtonActive();
+
+    // Version Handling
+    function getVersions(tableVersions, tableName) {
+        var element = document.getElementById(tableVersions)
+        var versionList = []
+        versionList.push("All Versions")
+        for(var i = 0; i < element.children.length; i++) {
+            var versionButton = "v-button-" + i
+            var elem = document.getElementById(versionButton)
+            var version = elem.getAttribute("name")
+            var versionNum = version.substring(0,3)
+            if(versionList.includes(versionNum) != true){
+                versionList.push(versionNum)
+            }
+        }
+        deleteChildren(tableVersions)
+        createNewButton(versionList, element, tableName, tableVersions)
+    }
+
+    function createNewButton(versionList, element, tableName, tableVersions) {
+        for(var i = 0; i < versionList.length; i++) {
+            var btn = document.createElement("button");
+            var num = versionList[i]
+            btn.id = num
+            var t = document.createTextNode(num);      
+            btn.className = "dropdown-item"
+            
+            btn.appendChild(t);
+            element.appendChild(btn);
+        }
+    }
+
+    function deleteChildren(elementID) {
+        var myNode = document.getElementById(elementID);
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+    }
+
+    function addFilter(tableVersions, tableName) {
+        var query = "#" + tableVersions + " button"
+        var buttons = document.querySelectorAll(query)
+        buttons.forEach(function(button) {
+            var num = button.id
+            button.onclick = function() {
+                filterTable(tableName, num)
+            }
+        });
+    }
+
+    function filterTable(tableName, versionNum) {
+        tableName = "." + tableName
+        var query = tableName + " tbody tr"
+        var trs = document.querySelectorAll(query);
+        if (versionNum == "All Versions") {
+            for (var i=0; i < trs.length; i++) {    
+                trs[i].style.display="";
+            }
+        }
+        else {
+            for (var i=0; i < trs.length; i++) {    
+                trs[i].style.display="";
+            }
+            for (var i=0; i < trs.length; i++) {    
+                var rowVersion = trs[i].id.substring(0,3)
+                if(rowVersion != versionNum) {
+                    trs[i].style.display="none";
+                }
+            }
+        } 
+    }
+
+    function selectRow(pXBuild, versionMenu) {
+        var menu = document.getElementById(versionMenu);
+        menu.innerHTML = pXBuild;
+    }
+
+    function toggleCompareMode(tableName) {
+        var compareStatus = document.getElementById('compare-mode');
+        var left = document.getElementById('left-menu');
+        var right = document.getElementById('right-menu');
+        var compareSubmit = document.getElementById('compare-submit');
+        var compareMode = sessionStorage.isCompareModeOn;
+
+        if (compareMode === "false") {
+            document.getElementById('histogram-btn').disabled = false;
+            compareStatus.innerHTML = "Compare Mode: On";
+            sessionStorage.setItem("isCompareModeOn", "true");
+            left.style.display = "";
+            right.style.display = "";
+            compareSubmit.style.display = ""
+            compare(tableName)
+        }
+        else {
+            document.getElementById('histogram-btn').disabled = true;
+            compareStatus.innerHTML = "Compare Mode: Off";
+            left.style.display = "none";
+            right.style.display = "none";
+            sessionStorage.setItem("isCompareModeOn", "false");
+            
+            compareSubmit.style.display = "none";
+            tableName = "." + tableName
+            var query = tableName + " tbody tr"
+            var trs = document.querySelectorAll(query);
+            for (var i=0; i < trs.length; i++) {    
+                    trs[i].style.display="";
+            }
+        }
+    }
+
+    function compare(tableName) {
+        var left = document.getElementById('left-menu');
+        var right = document.getElementById('right-menu');
+        
+        tableName = "." + tableName
+        var query = tableName + " tbody tr"
+        var trs = document.querySelectorAll(query);
+        for (var i=0; i < trs.length; i++) {    
+                trs[i].style.display="";
+        }
+        for (var i=0; i < trs.length; i++) {    
+            var rowVersion = trs[i].id
+            if(rowVersion != left.innerHTML && rowVersion != right.innerHTML) {
+                trs[i].style.display="none";
+            }
+        }
+        redrawHistogram();
+    }
+
+    //_______________________ GRAPH HANDLER _______________________ 
+
+
+    google.charts.load('current', {'packages':['corechart']});
+    
+    //////////// STANDARD GRAPHS \\\\\\\\\\\\\\\\\\\\
+
+    var currentGraph;
+
+    // Standard R1 Local Write Graph
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r1localwrite');
+        var id = 'r1localwrite-chart';
+        //currentGraph = 'r1localwrite';
+        var yAxisLabel = 'R1 Local Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R1 Local Read Graph
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r1localread');
+        var id = 'r1localread-chart';
+        var yAxisLabel = 'R1 Local Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R1 Remote Write Graph
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r1remotewrite');
+        var id = 'r1remotewrite-chart';
+        var yAxisLabel = 'R1 Remote Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R1 Remote Read Graph
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r1remoteread');
+        var id = 'r1remoteread-chart';
+        var yAxisLabel = 'R1 Remote Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R2 Local Write Graph
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r2localwrite');
+        var id = 'r2localwrite-chart';
+        var yAxisLabel = 'R2 Local Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R2 Local Read Graph
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r2localread');
+        var id = 'r2localread-chart';
+        var yAxisLabel = 'R2 Local Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R2 Remote Write Graph
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r2remotewrite');
+        var id = 'r2remotewrite-chart';
+        var yAxisLabel = 'R2 Remote Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R2 Remote Read Graph
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r2remoteread');
+        var id = 'r2remoteread-chart';
+        var yAxisLabel = 'R2 Remote Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R3 Local Write Graph
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r3localwrite');
+        var id = 'r3localwrite-chart';
+        var yAxisLabel = 'R3 Local Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R3 Local Read Graph
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r3localread');
+        var id = 'r3localread-chart';
+        var yAxisLabel = 'R3 Local Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R2 Local Write1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r2localwrite1repldown');
+        var id = 'r2localwrite1repldown-chart';
+        var yAxisLabel = "R2 Local Write1 Repl Down";
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R2 Local Read1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r2localread1repldown');
+        var id = 'r2localread1repldown-chart';
+        var yAxisLabel = 'R2 Local Read1 Repl Down';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R2 Remote Write1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r2remotewrite1repldown');
+        var id = 'r2remotewrite1repldown-chart';
+        var yAxisLabel = 'R2 Remote Write1 Repl Down';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R2 Remote Read1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r2remoteread1repldown');
+        var id = 'r2remoteread1repldown-chart';
+        var yAxisLabel = 'R2 Remote Read1 Repl Down';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R3 Local Write1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r3localwrite1repldown');
+        var id = 'r3localwrite1repldown-chart';
+        var yAxisLabel = 'R3 Local Write1 Repl Down';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R3 Local Read1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r3localread1repldown');
+        var id = 'r3localread1repldown-chart';
+        var yAxisLabel = 'R3 Local Read1 Repl Down';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R1 Aggr3 Local Write Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r1aggr3localwrite');
+        var id = 'r1aggr3localwrite-chart';
+        var yAxisLabel = 'R1 Aggr3 Local Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R1 Aggr3 Local Read Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r1aggr3localread');
+        var id = 'r1aggr3localread-chart';
+        var yAxisLabel = 'R1 Aggr3 Local Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R1 Aggr2 Local Write Chart
+     google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r1aggr2localwrite');
+        var id = 'r1aggr2localwrite-chart';
+        var yAxisLabel = 'R1 Aggr2 Local Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Standard R1 Aggr2 Local Read Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('pxbuild');
+        var yAxis = getColumnData('r1aggr2localread');
+        var id = 'r1aggr2localread-chart';
+        var yAxisLabel = 'R1 Aggr2 Local Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    //////////////////// RESYNC TABLES \\\\\\\\\\\\\\\\\\\\\\\\\
+
+    // Data Size Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('resync-pxbuild');
+        var yAxis = getColumnData('resync-datasize');
+        var id = 'resync-datasize-chart';
+        var yAxisLabel = 'Resync Data Size';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Throughput Chart
+     google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('resync-pxbuild');
+        var yAxis = getColumnData('resync-throughput');
+        var id = 'resync-throughput-chart';
+        var yAxisLabel = 'Resync Throughput';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Throughput Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('resync-pxbuild');
+        var yAxis = getColumnData('resync-elapsedtimesec');
+        var id = 'resync-elapsedtimesec-chart';
+        var yAxisLabel = 'Resync Elapsed (Seconds)'
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+    
+    //////////////////// SYSBENCH TABLES \\\\\\\\\\\\\\\\\\\\\\\\\
+
+    // Table Size Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('sysbench-pxbuild');
+        var yAxis = getColumnData('sysbench-tablesize');
+        var id = 'sysbench-tablesize-chart';
+        var yAxisLabel = 'Table Size';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Number of Threads Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('sysbench-pxbuild');
+        var yAxis = getColumnData('sysbench-numofthreads');
+        var id = 'sysbench-numofthreads-chart';
+        var yAxisLabel = 'Number of Threads'
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Transactions Per Second Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('sysbench-pxbuild');
+        var yAxis = getColumnData('sysbench-transactionspersec');
+        var id = 'sysbench-transactionspersec-chart';
+        var yAxisLabel = 'Transactions Per Second';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Average Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('sysbench-pxbuild');
+        var yAxis = getColumnData('sysbench-avg');
+        var id = 'sysbench-avg-chart';
+        var yAxisLabel = 'Average';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Percentile Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('sysbench-pxbuild');
+        var yAxis = getColumnData('sysbench-percentile');
+        var id = 'sysbench-percentile-chart';
+        var yAxisLabel = 'Percentile';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    
+    //////////////////// VOLUME TABLE GRAPHS \\\\\\\\\\\\\\\\\\\
+
+    // R1 Local Write Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r1localwrite');
+        var id = 'volume-r1localwrite-chart';
+        var yAxisLabel = 'R1 Local Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R1 Local Read Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r1localread');
+        var id = 'volume-r1localread-chart';
+        var yAxisLabel = 'R1 Local Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R1 Remote Write Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r1remotewrite');
+        var id = 'volume-r1remotewrite-chart';
+        var yAxisLabel = 'R1 Remote Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R1 Remote Read Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r1remoteread');
+        var id = 'volume-r1remoteread-chart';
+        var yAxisLabel = 'R1 Remote Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R2 Local Write Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r2localwrite');
+        var id = 'volume-r2localwrite-chart';
+        var yAxisLabel = 'R2 Local Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R2 Local Read Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r2localread');
+        var id = 'volume-r2localread-chart';
+        var yAxisLabel = 'R2 Local Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R1 Remote Write Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r2remotewrite');
+        var id = 'volume-r2remotewrite-chart';
+        var yAxisLabel = 'R2 Remote Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R1 Remote Read Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r2remoteread');
+        var id = 'volume-r2remoteread-chart';
+        var yAxisLabel = 'R2 Remote Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R3 Local Write Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r3localwrite');
+        var id = 'volume-r3localwrite-chart';
+        var yAxisLabel = 'R3 Local Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R3 Local Read Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r3localread');
+        var id = 'volume-r3localread-chart';
+        var yAxisLabel = 'R3 Local Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R2 Local Write1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r2localwrite1repldown');
+        var id = 'volume-r2localwrite1repldown-chart';
+        var yAxisLabel = 'R2 Local Write1 Repl Down';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R2 Local Read1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r2localread1repldown');
+        var id = 'volume-r2localread1repldown-chart';
+        var yAxisLabel = 'R2 Local Read1 Repl Down';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R2 Remote Write1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r2remotewrite1repldown');
+        var id = 'volume-r2remotewrite1repldown-chart';
+        var yAxisLabel = 'R2 Remote Write1 Repl Down';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R2 Remote Read1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r2remoteread1repldown');
+        var id = 'volume-r2remoteread1repldown-chart';
+        var yAxisLabel = 'R2 Remote Read1 Repl Down';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R3 Local Write1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r3localwrite1repldown');
+        var id = 'volume-r3localwrite1repldown-chart';
+        var yAxisLabel = 'R3 Local Write1 Repl Down';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R3 Local Read1 Repl Down Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r3localread1repldown');
+        var id = 'volume-r3localread1repldown-chart';
+        var yAxisLabel = 'R3 Local Read1 Repl Down';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R1 Aggr3 Local Write Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r1aggr3localwrite');
+        var id = 'volume-r1aggr3localwrite-chart';
+        var yAxisLabel = 'R1 Aggr3 Local Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R1 Aggr3 Local Read Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r1aggr3localread');
+        var id = 'volume-r1aggr3localread-chart';
+        var yAxisLabel = 'R1 Aggr3 Local Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R1 Aggr2 Local Write Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r1aggr2localwrite');
+        var id = 'volume-r1aggr3localwrite-chart';
+        var yAxisLabel = 'R1 Aggr3 Local Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // R1 Aggr2 Local Read Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('volume-pxbuild');
+        var yAxis = getColumnData('volume-r1aggr2localread');
+        var id = 'volume-r1aggr3localread-chart';
+        var yAxisLabel = 'R1 Aggr3 Local Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    //////////////////// PERF456 TABLE GRAPHS \\\\\\\\\\\\\\\\\\\
+
+    // Perf456 R1 Local Write Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('perf456-date');
+        var yAxis = getColumnData('perf456-r1localwrite');
+        var id = 'perf456-r1localwrite-chart';
+        var yAxisLabel = 'R1 Local Write';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    // Perf456 R1 Local Read Chart
+    google.charts.setOnLoadCallback(function () {
+        var xAxis = getColumnData('perf456-date');
+        var yAxis = getColumnData('perf456-r1localread');
+        var id = 'perf456-r1localread-chart';
+        var yAxisLabel = 'R1 Local Read';
+        drawChart(xAxis, yAxis, id, yAxisLabel);
+    });
+
+    //////////////////// Comparison Histogram \\\\\\\\\\\\\\\\\\\
+    
+    var left = document.getElementById('left-menu').innerHTML;    
+    var right = document.getElementById('right-menu').innerHTML; 
+    
+
+    // Histogram
+    google.charts.setOnLoadCallback(function () {
+        var tableOne = getHistogramData(left, currentGraph, '#EF5151');
+        var tableTwo = getHistogramData(right, currentGraph, '#5D5DCD');
+        drawHistogram(tableOne, tableTwo);
+    });
+
+    function initCurrentGraph() {
+        var val = document.getElementById("graph").getAttribute("value");
+        currentGraph = val;
+    }
+
+    window.onload = initCurrentGraph();
+
+    function setCurrentGraph(dataColumn) {
+        currentGraph = dataColumn;
+    }
+
+    function getColumnData(dataColumn) {
+        var input = [];
+        var data = document.getElementsByName(dataColumn);
+        for (i = 0; i < data.length; i++) {
+            input.push(data[i].innerHTML);   
+        }
+        return input;
+    }
+
+    function getHistogramData(pxbuild, dataColumn, color) {
+        var input = [];
+        input.push(pxbuild);
+        var tableRow = document.getElementById(pxbuild);
+        var data = tableRow.cells.namedItem(dataColumn).innerHTML;
+        input.push(parseInt(data))
+        input.push(color);
+        return input
+    }
+
+    function selectGraph(pXBuild, graphMenu) {
+        var graph = document.getElementById(graphMenu);
+        graph.innerHTML = pXBuild;
+    }
+
+    // Draw Graphs
+    function drawChart(xAxis, yAxis, id, yAxisLabel) {
+        var input = [];
+        var graphTitle = 'Portworx ' + yAxisLabel + ' Logs' 
+
+        input.push(['PXBuild', yAxisLabel]);
+        for(var i = 0; i < xAxis.length; i++) {
+            var entry = [];
+            entry.push(xAxis[i]);
+            entry.push(parseInt(yAxis[i]));
+            input.push(entry);
+        }
+        var data = google.visualization.arrayToDataTable(input);
+        var options = {
+            width: 1230,
+            height: 550,
+            title: graphTitle,
+            legend: { position: 'none' },
+            hAxis: {
+                title: 'PxBuild',
+                slantedText: true, 
+                slantedTextAngle: 15 
+            },
+            vAxis: {
+                title: yAxisLabel
+            },
+        };
+        var chart = new google.visualization.LineChart(document.getElementById(id));
+        chart.draw(data, options);
+    }
+
+    function drawHistogram(tableOne, tableTwo) {
+        var data = google.visualization.arrayToDataTable([
+            ['PXBuild', currentGraph, { role: "style" } ],
+            tableOne,
+            tableTwo]);
+
+        var options = {
+            width: 1200,
+            height: 550,
+            title: 'Comparing ' + tableOne[0] + " and " + tableTwo[0],
+            bar: {groupWidth: "40%"},
+            legend: { position: 'none' },
+            hAxis: {
+                title: 'PxBuild',
+                slantedText: true, 
+                slantedTextAngle: 30,
+                textStyle : {
+                    fontSize: 9
+                } 
+            },
+            vAxis: {
+                title: currentGraph
+            },
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('histogram'));
+        chart.draw(data, options);
+    }
+
+    function redrawHistogram() {
+        var left = document.getElementById('left-menu').innerHTML;    
+        var right = document.getElementById('right-menu').innerHTML; 
+        var tableOne = getHistogramData(left, currentGraph, '#EF5151');
+        var tableTwo = getHistogramData(right, currentGraph, '#5D5DCD');
+        drawHistogram(tableOne, tableTwo);
+    }
+
+    /// ---------------------- GRAPH HANDLING FUNCTIONS ---------------------- \\\
+    function showHistogram() {
+        var histogram = document.getElementById("histogram");
+        toggleHistogramDisplayMode();
+        if (histogram.style.display === "none") {
+            histogram.style.display = "";
+            sessionStorage.setItem("isHistogramOn", "true");
+        }
+        else {
+            histogram.style.display = "none";
+            sessionStorage.setItem("isHistogramOn", "false");
+        } 
+    }
+
+    function showGraph(graphName, graph) {
+        var graphs = ["r1localwrite-chart", "r1localread-chart", "r1remotewrite-chart", "r1remoteread-chart", "r2localwrite-chart", "r2localread-chart", "r2remotewrite-chart", "r2remoteread-chart", "r3localwrite-chart", "r3localread-chart", "r2localwrite1repldown-chart", "r2localread1repldown-chart", "r2remotewrite1repldown-chart", "r2remoteread1repldown-chart", "r3localwrite1repldown-chart", "r3localread1repldown-chart", "r1aggr3localwrite-chart", "r1aggr3localread-chart", "r1aggr2localwrite-chart", "r1aggr2localread-chart"];
+        for (var i = 0; i < graphs.length; i++) {
+            var x = document.getElementById(graphs[i])
+            x.style.display = "none";
+        }
+        var y = document.getElementById(graphName);
+        y.style.display = "";
+        setCurrentGraph(graph);
+        redrawHistogram();
+    }
+
+    function showGraphResync(graphName, graph) {
+        var graphs = ["resync-datasize-chart", "resync-throughput-chart", "resync-elapsedtimesec-chart"];
+        for (var i = 0; i < graphs.length; i++) {
+            var x = document.getElementById(graphs[i])
+            x.style.display = "none";
+        }
+        var y = document.getElementById(graphName);
+        y.style.display = "";
+        setCurrentGraph(graph);
+        redrawHistogram();
+    }
+
+    function showGraphSysbench(graphName, graph) {
+        var graphs = ["sysbench-tablesize-chart", "sysbench-numofthreads-chart", "sysbench-transactionspersec-chart", "sysbench-avg-chart", "sysbench-percentile-chart"];
+        for (var i = 0; i < graphs.length; i++) {
+            var x = document.getElementById(graphs[i])
+            x.style.display = "none";
+        }
+        var y = document.getElementById(graphName);
+        y.style.display = "";
+        setCurrentGraph(graph);
+        redrawHistogram();
+    }
+
+    function showGraphVolume(graphName, graph) {
+        var graphs = ["volume-r1localwrite-chart", "volume-r1localread-chart", "volume-r1remotewrite-chart", "volume-r1remoteread-chart", "volume-r2localwrite-chart", "volume-r2localread-chart", "volume-r2remotewrite-chart", "volume-r2remoteread-chart", "volume-r3localwrite-chart", "volume-r3localread-chart", "volume-r2localwrite1repldown-chart", "volume-r2localread1repldown-chart", "volume-r2remotewrite1repldown-chart", "volume-r2remoteread1repldown-chart", "volume-r3localwrite1repldown-chart", "volume-r3localread1repldown-chart", "volume-r1aggr3localwrite-chart", "volume-r1aggr3localread-chart", "volume-r1aggr2localwrite-chart", "volume-r1aggr2localread-chart"];
+        for (var i = 0; i < graphs.length; i++) {
+            var x = document.getElementById(graphs[i])
+            x.style.display = "none";
+        }
+        var y = document.getElementById(graphName);
+        y.style.display = "";
+        setCurrentGraph(graph);
+        redrawHistogram();
+    }
+
+    function showGraphPerf456(graphName, graph) {
+        var graphs = ['perf456-r1localwrite-chart', 'perf456-r1localread-chart'];
+        for (var i = 0; i < graphs.length; i++) {
+            var x = document.getElementById(graphs[i])
+            x.style.display = "none";
+        }
+        var y = document.getElementById(graphName);
+        y.style.display = "";
+        setCurrentGraph(graph);
+        redrawHistogram();
+    }
+
+    function toggleGraphModeOn() {
+        var graph = document.getElementById("graph");
+        var table = document.getElementById("tables");
+
+        if (graph.style.display === "none") {
+            graph.style.display = "";
+            table.style.display = "none";
+            sessionStorage.setItem("isGraphModeOn", "true");
+            sessionStorage.setItem("isTableModeOn", "false");
+            document.getElementById("version-dropdown-menu").disabled = true;
+        }
+        else {
+            graph.style.display = "none";
+            table.style.display = "";
+            sessionStorage.setItem("isGraphModeOn", "false");
+            sessionStorage.setItem("isTableModeOn", "true");
+            document.getElementById("version-dropdown-menu").disabled = false;
+
+        }
+        toggleButtonDisplayMode();
+    }
+
+    function toggleButtonDisplayMode() {
+        var button = document.getElementById("display-graphs");
+        if (button.innerHTML === "Display Graphs") {
+            button.innerHTML = "Display Tables";
+        }
+        else {
+            button.innerHTML = "Display Graphs";
+        } 
+    }
+
+    function toggleHistogramDisplayMode() {
+        var button = document.getElementById("histogram-btn");
+        var buttons = document.getElementsByClassName("buttons-histogram");
+        if (button.innerHTML !== "Hide Histogram") {
+            button.innerHTML = "Hide Histogram";
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = "";
+            } 
+        }
+        else {
+            button.innerHTML = "Show Histogram";
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = "none";
+            } 
+        } 
+    }
+
+    function compareGraphs(graphName) {
+        var left = document.getElementById('left-menu').innerHTML;
+        var right = document.getElementById('right-menu').innerHTML;
+        
+        graphName = "." + tableName
+        var query = tableName + " tbody tr";
+        var trs = document.querySelectorAll(query);
+        for (var i=0; i < trs.length; i++) {    
+                trs[i].style.display="";
+        }
+        for (var i=0; i < trs.length; i++) {    
+            var rowVersion = trs[i].id
+            if(rowVersion != left && rowVersion != right) {
+                trs[i].style.display="none";
+            }
+        }
+    }
+
+    function initIsCompareModeOn() {
+        var compareMode = sessionStorage.isCompareModeOn;
+        var graphMode = sessionStorage.isGraphModeOn;
+        var tableMode = sessionStorage.isTableModeOn;
+        var histogramMode =  sessionStorage.isHistogramOn;
+        var button = document.getElementById("display-graphs");
+        if (compareMode === "true" && graphMode === "false") {
+            button.innerHTML = "Display Graphs";
+            setOnTableMode();
+            setOnCompareMode();
+            compare(document.getElementById("tablename").getAttribute("value"));
+        } 
+        else if (graphMode === "true") {
+            button.innerHTML = "Display Tables";
+            if (compareMode === "true") {
+                if (histogramMode === "true") {
+                    var histogram = document.getElementById('histogram');
+                    var histogram_button = document.getElementById("histogram-btn");
+                    histogram.style.display = "";
+                    histogram_button.innerHTML = "Hide Histogram";
+                }
+                setOnCompareMode();
+            }
+            setOnGraphMode();
+        }
+        else {
+            button.innerHTML = "Display Graphs";
+            setOnTableMode();
+        }
+    }
+
+    function setOnCompareMode() {
+        var compareStatus = document.getElementById('compare-mode');
+        var left = document.getElementById('left-menu');
+        var right = document.getElementById('right-menu');
+        var compareSubmit = document.getElementById('compare-submit');
+        document.getElementById('histogram-btn').disabled = false;
+        compareStatus.innerHTML = "Compare Mode: On";
+        left.style.display = "";
+        right.style.display = "";
+        compareSubmit.style.display = ""
+        sessionStorage.setItem("isCompareModeOn", "true");
+    }
+
+    function setOnGraphMode() {
+        sessionStorage.setItem("isTableModeOn", "false");
+        var graph = document.getElementById("graph");
+        var table = document.getElementById("tables");
+        graph.style.display = "";
+        table.style.display = "none";
+    }
+
+    function setOnTableMode() {
+        sessionStorage.setItem("isTableModeOn", "true");
+        sessionStorage.setItem("isGraphModeOn", "false");
+        sessionStorage.setItem("isCompareModeOn", "false");
+        var graph = document.getElementById("graph");
+        var table = document.getElementById("tables");
+        graph.style.display = "none";
+        table.style.display = "";
+    }
+
+    window.onload = initIsCompareModeOn();
+</script>
+{{ end }}

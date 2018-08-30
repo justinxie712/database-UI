@@ -1,0 +1,7 @@
+{{ define "resyncTableGraphButtons" }}
+<div id="graphs">
+    <button class="dropdown-item" id="resync-datasize-btn" type="button" onclick='showGraphResync("resync-datasize-chart", "resync-datasize")'>Data Size</button>
+    <button class="dropdown-item" id="resync-throughput-btn" type="button" onclick='showGraphResync("resync-throughput-chart", "resync-throughput")'>Throughput</button>
+    <button class="dropdown-item" id="resync-elapsedtimesec-btn" type="button" onclick='showGraphResync("resync-elapsedtimesec-chart", "resync-elapsedtimesec")'>Elapsed Time: Sec</button>
+</div>
+{{ end }}

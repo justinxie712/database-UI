@@ -1,0 +1,24 @@
+{{ define "volumeTableGraphButtons" }}
+<div id="graphs-buttons">
+    <button class="dropdown-item" id="volume-r1localwrite-btn" type="button" onclick='showGraphVolume("volume-r1localwrite-chart", "volume-r1localwrite")'>R1 Local Write</button>
+    <button class="dropdown-item" id="volume-r1localread-btn" type="button" onclick='showGraphVolume("volume-r1localread-chart", "volume-r1localread")'>R1 Local Read</button>
+    <button class="dropdown-item" id="volume-r1remotewrite-btn" type="button" onclick='showGraphVolume("volume-r1remotewrite-chart", "volume-r1remotewrite")'>R1 Remote Write</button>
+    <button class="dropdown-item" id="volume-r1remoteread-btn" type="button" onclick='showGraphVolume("volume-r1remoteread-chart", "volume-r1remoteread")'>R1 Remote Read</button>
+    <button class="dropdown-item" id="volume-r2localwrite-btn" type="button" onclick='showGraphVolume("volume-r2localwrite-chart", "volume-r2localwrite")'>R2 Local Write</button>
+    <button class="dropdown-item" id="volume-r2localread-btn" type="button" onclick='showGraphVolume("volume-r2localread-chart", "volume-r2localread")'>R2 Local Read</button>
+    <button class="dropdown-item" id="volume-r2remotewrite-btn" type="button" onclick='showGraphVolume("volume-r2remotewrite-chart", "volume-r2remotewrite")'>R2 Remote Write</button>
+    <button class="dropdown-item" id="volume-r2remoteread-btn" type="button" onclick='showGraphVolume("volume-r2remoteread-chart", "volume-r2remoteread")'>R2 Remote Read</button>
+    <button class="dropdown-item" id="volume-r3localwrite-btn" type="button" onclick='showGraphVolume("volume-r3localwrite-chart", "volume-r3localwrite")'>R3 Local Write</button>
+    <button class="dropdown-item" id="volume-r3localread-btn" type="button" onclick='showGraphVolume("volume-r3localread-chart", "volume-r3localread")'>R3 Local Read</button>
+    <button class="dropdown-item" id="volume-r2localwrite1repldown-btn" type="button" onclick='showGraphVolume("volume-r2localwrite1repldown-chart", "volume-r2localwrite1repldown")'>R2 Local Write 1Repl Down</button>
+    <button class="dropdown-item" id="volume-r2localread1repldown-btn" type="button" onclick='showGraphVolume("volume-r2localread1repldown-chart", "volume-r2localread1repldown")'>R2 Local Read 1Repl Down</button>
+    <button class="dropdown-item" id="volume-r2remotewrite1repldown-btn" type="button" onclick='showGraphVolume("volume-r2remotewrite1repldown-chart", "volume-r2remotewrite1repldown")'>R2 Remote Write 1Repl Down</button>
+    <button class="dropdown-item" id="volume-r2remoteread1repldown-btn" type="button" onclick='showGraphVolume("volume-r2remoteread1repldown-chart", "volume-r2remoteread1repldown")'>R2 Remote Read 1Repl Down</button>
+    <button class="dropdown-item" id="volume-r3emotewrite1repldown-btn" type="button" onclick='showGraphVolume("volume-r3remotewrite1repldown-chart", "volume-r3remotewrite1repldown")'>R3 Local Write 1Repl Down</button>
+    <button class="dropdown-item" id="volume-r3emoteread1repldown-btn" type="button" onclick='showGraphVolume("volume-r3remoteread1repldown-chart", "volume-r3remoteread1repldown")'>R3 Local Read 1Repl Down</button>
+    <button class="dropdown-item" id="volume-r1aggr3localwrite-btn" type="button" onclick='showGraphVolume("volume-r1aggr3localwrite-chart", "volume-r1aggr3localwrite")'>R1 Aggr3 Local Write</button>
+    <button class="dropdown-item" id="volume-r1aggr3localread-btn" type="button" onclick='showGraphVolume("volume-r1aggr3localread-chart", "volume-r1aggr3localread")'>R1 Aggr3 Local Read</button>
+    <button class="dropdown-item" id="volume-r1aggr2localwrite-btn" type="button" onclick='showGraphVolume("volume-r1aggr2localwrite-chart", "volume-r1aggr2localwrite")'>R1 Aggr2 Local Write</button>
+    <button class="dropdown-item" id="volume-r1aggr2localread-btn" type="button" onclick='showGraphVolume("volume-r1aggr2localread-chart", "volume-r1aggr2localread")'>R1 Aggr2 Local Read</button>
+</div>
+{{ end }}

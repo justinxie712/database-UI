@@ -1,0 +1,11 @@
+{{ define "versions" }}
+{{ $version := index . 0}}
+{{ $tableName := $version.Table }}
+{{ $versionID := (print $tableName "-version") }}
+<div id="{{ $versionID }}">
+    {{range $key, $value := .}}
+    {{$id := (print "v-button-" $key)}}
+        <button class="dropdown-item" id="{{$id}}" name="{{.PxBuild}}">{{.PxBuild}}</button>     
+    {{end}}
+</div>
+{{ end }}

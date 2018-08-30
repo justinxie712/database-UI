@@ -1,0 +1,30 @@
+{{ define "volumeTableRows" }}
+<tr id="{{.PxBuild}}">
+    <td name="volume-pxbuild" value={{.PxBuild}}>{{.PxBuild}}</td>
+    <td name="volume-jobname" value={{.JobName}}>{{.JobName}}</td>
+    <td name="volume-jenkinbuild">{{.JenkinBuild}}</td>
+    <td name="volume-date">{{.Date}}</td>
+    <td name="volume-blocksize">{{.BlockSize}}</td>
+    <td name="volume-iotype">{{.IoType}}</td>
+    <td name="volume-r1localwrite">{{.R1LocalWrite}}</td>
+    <td name="volume-r1localread">{{.R1LocalRead}}</td>
+    <td name="volume-r1remotewrite">{{.R1RemoteWrite}}</td>
+    <td name="volume-r1remoteread">{{.R1RemoteRead}}</td>
+    <td name="volume-r2localwrite">{{.R2LocalWrite}}</td>
+    <td name="volume-r2localread">{{.R2LocalRead}}</td>
+    <td name="volume-r2remotewrite">{{.R2RemoteWrite}}</td>
+    <td name="volume-r2remoteread">{{.R2RemoteRead}}</td>
+    <td name="volume-r3localwrite">{{.R3LocalWrite}}</td>
+    <td name="volume-r3localread">{{.R3LocalRead}}</td>
+    <td name="volume-r2localwrite1repldown">{{.R2LocalWrite1ReplDown}}</td>
+    <td name="volume-r2localread1repldown">{{.R2LocalRead1ReplDown}}</td>
+    <td name="volume-r2remotewrite1repldown">{{.R2RemoteWrite1ReplDown}}</td>
+    <td name="volume-r2remoteread1repldown">{{.R2RemoteRead1ReplDown}}</td>
+    <td name="volume-r3localwrite1repldown">{{.R3LocalWrite1ReplDown}}</td>
+    <td name="volume-r3localread1repldown">{{.R3LocalRead1ReplDown}}</td>
+    <td name="volume-r1aggr3localwrite">{{.R1Aggr3LocalWrite}}</td>
+    <td name="volume-r1aggr3localread">{{.R1Aggr3LocalRead}}</td>
+    <td name="volume-r1aggr2localwrite">{{.R1Aggr2LocalWrite}}</td>
+    <td name="volume-r1aggr2localread">{{.R1Aggr2LocalRead}}</td>
+</tr>
+{{ end }}

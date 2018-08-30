@@ -1,0 +1,11 @@
+{{ define "version-dropdown" }}
+{{ $version := index . 0}}
+{{ $tableName := $version.Table }}
+{{ $versionListID := (print $tableName "-version-list") }}
+<div id="{{ $versionListID }}">
+    {{range $key, $value := .}}
+    {{$id := (print "list-button-" $key)}}
+        <button class="dropdown-item" id="{{$id}}" name="{{.PxBuild}}" onclick="selectRow('{{.PxBuild}}', 'left-menu')">{{.PxBuild}}</button>     
+    {{end}}
+</div>
+{{ end }}

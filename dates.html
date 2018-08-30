@@ -1,0 +1,11 @@
+{{ define "dates" }}
+{{ $dates := index . 0}}
+{{ $tableName := $dates.Table }}
+{{ $datesID := (print $tableName "-version") }}
+<div id="{{ $datesID }}">
+    {{range $key, $value := .}}
+    {{$id := (print "d-button-" $key)}}
+        <button class="dropdown-item" id="{{$id}}" name="{{.Date}}">{{.Date}}</button>     
+    {{end}}
+</div>
+{{ end }}

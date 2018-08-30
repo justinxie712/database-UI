@@ -1,0 +1,11 @@
+{{ define "resyncTableRows" }}
+<tr id="{{.PxBuild}}">
+    <td name="resync-pxbuild">{{.PxBuild}}</td>
+    <td name="resync-jenkinbuild">{{.JenkinBuild}}</td>
+    <td name="resync-date">{{.Date}}</td>
+    <td name="resync-datasize">{{.Datasize}}</td>
+    <td name="resync-throughput">{{.Throughput}}</td>
+    <td name="resync-elapsedtimesec">{{.ElapsedTimeSec}}</td>
+    <td name="resync-elapsedtime">{{.ElapsedTime}}</td>
+</tr>
+{{ end }}

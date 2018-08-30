@@ -1,0 +1,58 @@
+{{ define "header" }}
+{{ $table := index . 0}}
+{{ $right := index . 1}}
+{{ $tbl := $table.Table}}
+{{ $id := (print "table-" $tbl) }}
+{{ $graphID := (print "graph-" $tbl) }}
+<nav class="navbar" style="background-color: #333; position: fixed; top: 0; width: 100%; height: 140px; z-index: 100;">
+    <img src="https://portworx.com/wp-content/themes/portworx/images/portworx-logo.png" class="mobile-logo hidden-lg hidden-xl hidden-xxl" style="height:80px; margin-left: 30px; padding-bottom: 15px; padding-top: 5px;" alt="Portworx">
+    <label style="font-size: 35px; text-align: center; color: white; position: fixed; left: 40%">Performance Reports</label>  
+    <!-- Graph Feature DropDown --> 
+    <div class="btn-group" style="position: fixed; top: 100px; right: 0; z-index: 120;">
+        <div class="btn-group">
+            <button type="button" class="btn btn-success" id="display-graphs" style="border-bottom: darkgreen solid 2px; border-radius: 0; margin-right: 5px;" onclick="toggleGraphModeOn()"></button>
+            <button type="button" class="btn btn-dark dropdown-toggle" id="version-dropdown-menu" data-toggle="dropdown" style="border-radius: 0; margin-right: 5px; border: solid 1px red; border-bottom: darkred solid 2px;">Version</button>
+            <ul class="dropdown-menu dropdown-menu-right" style="height: auto; max-height: 200px; overflow-x: hidden;" role="menu">
+                {{ template "versions" .}}
+            </ul>
+        </div>
+        <div>
+            <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: inline-block; border-radius: 0; border: solid 1px red; border-bottom: darkred solid 2px;">
+                Table
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <button class="dropdown-item" id="encryptedvolumeiops-btn" type="button">Encrypted Volume IOPS</button>
+                <button class="dropdown-item" id="encryptedvolumethroughput-btn" type="button">Encrypted Volume</button>
+                <button class="dropdown-item" id="reg-volume-btn" type="button">Regular Volume</button>
+                <button class="dropdown-item" id="namespace-btn" type="button">Namespace</button>
+                <button class="dropdown-item" id="perf456-btn" type="button">Perf456 Baremetal Average Throughput</button>
+                <button class="dropdown-item" id="ioprofiledb-btn" type="button">Regular Volume: IO Profile Database</button>
+                <button class="dropdown-item" id="regvolume-iops-btn" type="button">Regular Volume: IOPS</button>
+                <button class="dropdown-item" id="journal-px-volume-btn" type="button">Regular Volume: Journal with PX Volume</button>
+                <button class="dropdown-item" id="regvolume-journal-btn" type="button">Regular Volume: Journal</button>
+                <button class="dropdown-item" id="syncio-btn" type="button">Regular Volume: Sync IO</button>
+                <button class="dropdown-item" id="resync-btn" type="button">Resync</button>
+                <button class="dropdown-item" id="whileio-btn" type="button">Resync WhileIO</button>
+                <button class="dropdown-item" id="sysbench-btn" type="button">Sysbench</button>
+            </div>
+        </div>
+    </div>
+    <!-- Compare Feature DropDown --> 
+    <div class="btn-group" role="group" aria-label="Basic example" id="compare-rows" style="position: fixed; top: 100px; left: 0%; z-index: 100;">
+        <button type="button" class="btn btn-success" id="compare-mode" onclick="toggleCompareMode('{{$table.Table}}')" style="border-bottom: darkgreen solid 2px; border-radius: 0; margin-right: 5px;">Compare Mode: Off</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger dropdown-toggle" id="left-menu" data-toggle="dropdown" style="border-radius: 0; display: none; border-bottom: darkred solid 2px;">{{$table.PxBuild}}</button>
+            <ul class="dropdown-menu dropdown-menu-left" style="height: auto; max-height: 200px; overflow-x: hidden;" role="menu">
+                {{ template "version-dropdown" .}}
+            </ul>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" id="right-menu" data-toggle="dropdown" style="border-radius: 0; display: none; border-bottom: darkblue solid 2px;">{{$right.PxBuild}}</button>
+            <ul class="dropdown-menu dropdown-menu-left" style="height: auto; max-height: 200px; overflow-x: hidden;" role="menu" id="right-menu">
+                {{ template "version-dropdown-right" .}}
+            </ul>
+        </div>
+        <button type="button" class="btn btn-success" id="compare-submit" onclick="compare('{{$table.Table}}')" style="border-radius: 0; margin-right: 5px; display: none; border-bottom: darkgreen solid 2px;">Compare Builds</button>
+    </div>
+</nav>
+{{ end }}

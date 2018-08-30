@@ -1,0 +1,13 @@
+{{ define "sysbenchTableRows"}}
+<tr id="{{.PxBuild}}">
+    <td name="sysbench-pxbuild">{{.PxBuild}}</td>
+    <td name="sysbench-jenkinbuild">{{.JenkinBuild}}</td>
+    <td name="sysbench-date">{{.Date}}</td>
+    <td name="sysbench-test">{{.Test}}</td>
+    <td name="sysbench-tablesize">{{.TableSize}}</td>
+    <td name="sysbench-numofthreads">{{.NumOfThreads}}</td>
+    <td name="sysbench-transactionspersec">{{.TransactionsPerSec}}</td>
+    <td name="sysbench-avg">{{.Avg}}</td>
+    <td name="sysbench-percentile">{{.Percentile}}</td>
+</tr>
+{{ end }}

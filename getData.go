@@ -82,7 +82,7 @@ func getVolumeThroughput(tableName string) []VolumeThroughput {
 
 	fmt.Println("Connecting to MySQL Database - VolumeThroughput")
 
-	db, err := sql.Open("mysql", "root:password@tcp(70.0.0.41)/portworx")
+	//db, err := sql.Open("mysql", "/* mySQL DATABASE CREDENTIALS HERE")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -149,7 +149,7 @@ func getPerf456(tableName string) []Perf456 {
 
 	fmt.Println("Connecting to MySQL Database - Perf456")
 
-	db, err := sql.Open("mysql", "root:password@tcp(70.0.0.41)/portworx")
+	//db, err := sql.Open("mysql", "/* mySQL DATABASE CREDENTIALS HERE")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -196,7 +196,7 @@ func getResync(tableName string) []Resync {
 
 	fmt.Println("Connecting to MySQL Database - Resync")
 
-	db, err := sql.Open("mysql", "root:password@tcp(70.0.0.41)/portworx")
+	//db, err := sql.Open("mysql", "/* mySQL DATABASE CREDENTIALS HERE")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -244,7 +244,7 @@ func getSysbench(tableName string) []Sysbench {
 
 	fmt.Println("Connecting to MySQL Database - Sysbench")
 
-	db, err := sql.Open("mysql", "root:password@tcp(70.0.0.41)/portworx")
+	//db, err := sql.Open("mysql", "/* mySQL DATABASE CREDENTIALS HERE")
 	if err != nil {
 		panic(err.Error())
 	}
